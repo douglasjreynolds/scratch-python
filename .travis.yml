@@ -1,0 +1,16 @@
+---
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t djreynolds1/scratch-python:latest .
+  - docker tag djreynolds1/scratch-python djreynolds1/scratch-python:3.7 
+  - docker tag djreynolds1/scratch-python djreynolds1/scratch-python:3.7.0 
+
+deploy:
+  provider: script
+  script: bash docker_push.sh
+  on:
+    branch: master
