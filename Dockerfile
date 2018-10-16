@@ -38,6 +38,7 @@ RUN cd /src/Python-${PY_VER} && \
     make -j install
 
 WORKDIR /tmp
+
 RUN mkdir -p /build_root/etc && \
     mkdir -p /build_root/usr/sbin && \
     mkdir -p /build_root/tmp && \
@@ -71,9 +72,7 @@ RUN useradd -M -r -s /usr/sbin/nologin ${APP_USER} && \
 FROM scratch
 
 COPY --from=builder /build_root/ /
-COPY --from=builder /usr/local/bin/ /usr/local/bin/
-COPY --from=builder /usr/local/lib/ /usr/local/lib/
-COPY --from=builder /usr/local/include/ /usr/local/include/
+COPY --from=builder /usr/local/ /usr/local/
 
 ENV LD_LIBRARY_PATH=/usr/local/lib:/lib
 RUN ["/usr/local/bin/pip3", "install", "-U", "pip", "setuptools"]
