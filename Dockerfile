@@ -32,7 +32,9 @@ RUN apt-get -yqq install \
 RUN tar xJvf /src/Python-${PY_VER}.tar.xz -C /src
 
 RUN cd /src/Python-${PY_VER} && \
-    ./configure --enable-optimizations --enable-shared && \
+    ./configure --enable-optimizations \
+                --includedir=/usr/local/include \
+                --enable-shared && \
     make -j install
 
 WORKDIR /tmp
