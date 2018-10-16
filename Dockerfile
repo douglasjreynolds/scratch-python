@@ -33,7 +33,7 @@ RUN tar xJvf /src/Python-${PY_VER}.tar.xz -C /src
 
 RUN cd /src/Python-${PY_VER} && \
     ./configure --enable-optimizations \
-                --includedir=/usr/local/include \
+                --prefix=/usr/local \
                 --enable-shared && \
     make -j install
 
