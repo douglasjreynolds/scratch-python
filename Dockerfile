@@ -69,6 +69,7 @@ FROM scratch
 COPY --from=builder /build_root/ /
 COPY --from=builder /usr/local/bin/ /usr/local/bin/
 COPY --from=builder /usr/local/lib/ /usr/local/lib/
+COPY --from=builder /usr/local/include/ /usr/local/include/
 
 ENV LD_LIBRARY_PATH=/usr/local/lib:/lib
 RUN ["/usr/local/bin/pip3", "install", "-U", "pip", "setuptools"]
