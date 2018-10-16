@@ -40,6 +40,8 @@ RUN cd /src/Python-${PY_VER} && \
 WORKDIR /tmp
 RUN mkdir -p /build_root/etc && \
     mkdir -p /build_root/usr/sbin && \
+    mkdir -p /build_root/tmp && \
+    chmod 1777 /build_root/tmp && \
     cp -v /usr/sbin/nologin /build_root/usr/sbin/nologin
 
 RUN apt-get download \
