@@ -27,13 +27,16 @@ RUN apt-get -yqq install \
         libssl-dev \
         wget \
         binutils \
-        xz-utils
+        xz-utils \
+        sqlite3 \
+        libsqlite3-dev
 
 RUN tar xJvf /src/Python-${PY_VER}.tar.xz -C /src
 
 RUN cd /src/Python-${PY_VER} && \
     ./configure --enable-optimizations \
                 --prefix=/usr/local \
+                --enable-loadable-sqlite-extensions \
                 --enable-shared && \
     make -j install
 
@@ -51,17 +54,10 @@ RUN apt-get download \
         libssl1.1 \
         zlib1g
 
-RUN ar xf $(ls -t libc6*.deb | head -1) data.tar.xz && \
-    tar xJvf data.tar.xz -C /build_root
-
-RUN ar xf $(ls -t libffi6*.deb | head -1) data.tar.xz && \
-    tar xJvf data.tar.xz -C /build_root
-
-RUN ar xf $(ls -t zlib1g*.deb | head -1) data.tar.xz && \
-    tar xJvf data.tar.xz -C /build_root
-
-RUN ar xf $(ls -t libssl1.1*.deb | head -1) data.tar.xz && \
-    tar xJvf data.tar.xz -C /build_root
+RUN dpkg-deb -x $(ls -t libc6*.deb | head -1) /build_root
+RUN dpkg-deb -x $(ls -t libffi6*.deb | head -1) /build_root
+RUN dpkg-deb -x $(ls -t zlib1g*.deb | head -1) /build_root
+RUN dpkg-deb -x $(ls -t libssl1.1*.deb | head -1) /build_root
 
 ARG APP_USER=python
 RUN useradd -M -r -s /usr/sbin/nologin ${APP_USER} && \
